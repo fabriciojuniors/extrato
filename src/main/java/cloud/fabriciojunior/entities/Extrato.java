@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,5 +34,14 @@ public class Extrato {
 
     @Column(name = "nome_arquivo", nullable = false)
     private String nomeArquivo;
+
+    @Column(name = "codigo_banco")
+    private String codigoBanco;
+
+    @Column(name = "numero_conta")
+    private String numeroConta;
+
+    @OneToMany(mappedBy = "extrato")
+    private List<Movimentacao> movimentacoes = new ArrayList<>();
 
 }

@@ -9,11 +9,13 @@ import java.util.UUID;
 public record MovimentacaoDto(UUID identificador,
                               LocalDate data,
                               BigDecimal valor,
-                              String descricao) {
+                              String descricao,
+                              ExtratoDto extratoDto) {
 
     public static MovimentacaoDto from(final Movimentacao movimentacao) {
+        var extrato = new ExtratoDto(movimentacao.getExtrato().getCodigoBanco(), movimentacao.getExtrato().getNumeroConta());
         return new MovimentacaoDto(movimentacao.getIdentificador(), movimentacao.getData(),
-                movimentacao.getValor(), movimentacao.getDescricao());
+                movimentacao.getValor(), movimentacao.getDescricao(), extrato);
     }
 
 }

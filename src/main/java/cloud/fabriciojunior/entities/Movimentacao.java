@@ -32,4 +32,8 @@ public class Movimentacao {
     @Column(name = "descricao")
     private String descricao;
 
+    @JoinColumn(name = "id_extrato")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Extrato extrato;
+
 }

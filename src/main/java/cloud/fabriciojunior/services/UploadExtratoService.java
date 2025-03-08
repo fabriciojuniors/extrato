@@ -22,7 +22,7 @@ import java.nio.file.StandardOpenOption;
 @RequestScoped
 public class UploadExtratoService {
 
-    final String EXTENSAO_CSV = ".csv";
+    final String EXTENSAO_OFX = ".ofx";
 
     @Inject
     Logger logger;
@@ -31,8 +31,15 @@ public class UploadExtratoService {
     ExtratoRepository extratoRepository;
 
     public void upload(final MultipartFormDataInput input) {
+        var isUploadValid = input.getParts().stream()
+                        .allMatch(part -> part.getFileName().toLowerCase().endsWith(EXTENSAO_OFX));
+
+        if (!isUploadValid) {
+            throw new RegraNegocioException("Os arquivos devem possuir a extensão OFX");
+        }
+
         input.getParts().stream()
-                .filter(part -> part.getFileName().toLowerCase().endsWith(EXTENSAO_CSV))
+                .filter(part -> part.getFileName().toLowerCase().endsWith(EXTENSAO_OFX))
                 .forEach(this::upload);
     }
 
